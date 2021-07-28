@@ -10,6 +10,7 @@ import java.util.List;
 
 import db.DB;
 import db.DbException;
+import db.DbIntegrityException;
 import gui.util.Alerts;
 import javafx.scene.control.Alert.AlertType;
 import model.dao.DepartmentDao;
@@ -91,7 +92,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 			st.executeUpdate();
 		}
 		catch (SQLException e) {
-			Alerts.showAlert("Error", null, e.getMessage(), AlertType.ERROR);;
+			throw new DbIntegrityException(e.getMessage());
 		}
 		finally {
 			DB.closeStatement(st);
