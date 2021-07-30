@@ -11,14 +11,13 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import db.DbIntegrityException;
-import gui.util.Alerts;
-import javafx.scene.control.Alert.AlertType;
 import model.dao.DepartmentDao;
 import model.entities.Department;
 
 public class DepartmentDaoJDBC implements DepartmentDao {
 
 	private Connection conn;
+	private SellerDaoJDBC sellerDaoJDBC;
 	
 	public DepartmentDaoJDBC(Connection conn) {
 		this.conn = conn;
@@ -112,7 +111,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Department dep = instantiateDepartment(rs);
+				Department dep = sellerDaoJDBC.instantiateDepartment(rs);
 				return dep;
 			}
 			return null;
@@ -153,10 +152,4 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 		}
 	}
 
-	protected Department instantiateDepartment(ResultSet rs) throws SQLException {
-		Department dep = new Department();
-		dep.setId(rs.getInt("Id"));
-		dep.setName(rs.getString("Name"));
-		return dep;
-	}
 }
